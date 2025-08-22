@@ -1,0 +1,77 @@
+= qB4670 8088/8089 端口检测封禁脚本
+:author: nlsdt
+:email: xsfx0313@proton.me
+:revnumber: 1.1
+:revdate: 2025-08-22
+:doctype: article
+:icons: font
+//:toc: left
+//:toc-title: 目录
+:idprefix:
+:idseparator: -
+
+//ifndef::imagesdir[:imagesdir: images]
+
+// ------------------------------------
+// 项目概述
+// ------------------------------------
+
+
+== 概述
+
+这是一个适用于用于 https://github.com/PBH-BTN/PeerBanHelper[PeerBanHelper] 脚本引擎用于封禁 **qB4670** 的 aviatorscrpt 脚本, 旨在检测常见的 qB4670 吸血客户端。
+
+== 脚本说明
+
+本项目包含两个脚本: 
+
+- `qB4670Detector_precise.av`: 精准检测, 检测 qB4670 客户端且 8088/8089 端口均开放时封禁。
+- `qB4670Detector_fuzzy.av`: 模糊检测, 仅检测 qB4670 客户端且端口为 4837 时封禁。
+
+== 检测逻辑对比与选择建议
+
+[cols="1,1,2",options="header"]
+|===
+| 脚本名称
+| 检测方式
+| 适用场景与特点
+
+|`qB4670Detector_precise.av`  精准脚本
+|检测 peerId 是否为 `-qB4670-`, 排除 IPv6, 主动探测 8088/8089 端口均开放才封禁
+|不会误判、漏判(有出现过两例非4837样本), 检测严格, 适合追求准确性的用户。需允许脚本主动探测端口, 部分环境可能受防火墙影响。
+
+|`qB4670Detector_fuzzy.av`  模糊脚本
+|检测 peerId 是否为 `-qB4670-` , 端口为 4837 即封禁
+|检测方便快速, 可能有极少量误判、漏判, 但无需主动探测端口, 适合对误判容忍度高或环境受限的用户。
+|===
+
+== 使用方法
+
+. 下载本仓库中的 `.av` 脚本文件。
+. 将脚本放入 PeerBanHelper 的 script 目录。
+. 启用对应脚本即可自动检测并封禁目标客户端。
+
+详细阅读 PeerBanHelper 文档-> https://docs.pbh-btn.com/docs/module/expression-engine[AviatorScript 引擎]
+
+== 注意事项
+
+- 精准检测脚本会主动尝试连接对方端口, 部分环境下可能受防火墙或网络限制影响。
+- 模糊脚本可能会误封部分正常 `qB4670` 客户端, 一般来说不会有问题, 如有发现请在 issue 中反馈。
+
+== 致谢
+
+- 感谢 PeerBanHelper 为 bittorrent 社区反吸血生态做出的贡献, 没有 PeerBanHelper, 也就没有这个脚本。 https://github.com/PBH-BTN/PeerBanHelper[项目地址]
+- 感谢 AviatorScript 引擎提供的强大功能, 使得脚本编写和执行变得简单高效。 https://github.com/killme2008/aviatorscript[项目地址]
+- 感谢群友 @CreeperAWA 提供的灵感, 这是他的 java 插件, 也可以参考一下: https://github.com/CreeperAWA/PeerBanHelperPlugin-qB467Detector
+
+== 许可证
+
+----
+BSD Zero Clause License
+
+Copyright (C) 2025 by NLsdt <nlsdt@nlsdt.cc>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+----

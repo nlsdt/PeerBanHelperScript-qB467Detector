@@ -1,0 +1,33 @@
+## @NAME qB4670Detector-模糊 4837 端口封禁
+## @AUTHOR nlsdt
+## @CACHEABLE true
+## @VERSION 1.0
+## @THREADSAFE true
+
+## BSD Zero Clause License
+##
+## Copyright (C) 2025 by nlsdt <xsfx0313@proton.me>
+##
+## Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+##
+## THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+## MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+## RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+## CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+##
+## SPDX-License-Identifier: 0BSD
+
+## 基础检测
+
+if(isBlank(peer.clientName) || isBlank(peer.peerId || isBlank(peer.peerAddress.port))) {
+    return false; ## 三个任意为空都不能继续检查, 需要下载器支持
+    }
+
+## 客户端检测
+if (!string.startsWith(peer.peerId, "-qB4670-")) {
+    return false; ## 必须是 qB4670
+}elsif (peer.peerAddress.port == 4837){
+    return "监测到 -qB4670- 且端口为 4837 , 判定为刷流";
+}
+
+return false;
